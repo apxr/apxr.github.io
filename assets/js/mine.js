@@ -27,7 +27,7 @@ $(function(){
 
 	  sr.reveal('.js--fadeInRight', {
 	    origin: 'right',
-	    distance: '300px',
+	    distance: '30px',
 	    easing: 'ease-in-out',
 	    duration: 800,
 	  });
@@ -43,7 +43,7 @@ $(function(){
 
 	  sr.reveal('.js--fadeInRight', {
 	    origin: 'right',
-	    distance: '300px',
+	    distance: '30px',
 	    easing: 'ease-in-out',
 	    duration: 800,
 	  });
@@ -56,7 +56,7 @@ $(function(){
 //  Console effect
 
 // function([string1, string2],target id,[color1,color2])    
-consoleText(['Apurv Priyam...', 'a Data Scientist...', 'a Coder...', 'a Photographer...'], 'text',['#f4ffff','#f4ffff','#f4ffff', '#f4ffff']);
+consoleText(['Apurv Priyam...', 'a Data Scientist...', 'a Programmer...', 'a Photographer...'], 'text',['#f4ffff','#f4ffff','#f4ffff', '#f4ffff']);
 
 function consoleText(words, id, colors) {
   if (colors === undefined) colors = ['#fff'];
