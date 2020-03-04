@@ -115,7 +115,7 @@ input, select, textarea {
 /* Type */
 
 	body, input, select, textarea {
-		color: rgba(255, 255, 255, 0.55);
+		color: rgba(255, 255, 255, 0.8);
 		font-family: Arial, Helvetica, sans-serif;
 		font-size: 16.5pt;
 		font-weight: normal;
@@ -1976,6 +1976,13 @@ input, select, textarea {
 					opacity: 0.1;
 				}
 
+/* interest */
+.interest section {
+			padding: 3.5em 3em 1em 7em ;
+			width: 50%;
+			border-top: solid 1px rgba(255, 255, 255, 0.15);
+			position: relative;
+		}
 /* Features */
 
 	.features {
@@ -1995,7 +2002,7 @@ input, select, textarea {
 
 		.features section {
 			padding: 3.5em 3em 1em 7em ;
-			width: 50%;
+			width: 100%;
 			border-top: solid 1px rgba(255, 255, 255, 0.15);
 			position: relative;
 		}
@@ -2583,7 +2590,7 @@ input, select, textarea {
 
 		.image.left {
 			float: left;
-			margin: 0 1.5em 1em 0;
+			margin: 0 0.5em 1em -0.5em;
 			top: 0.25em;
 		}
 
@@ -2675,6 +2682,7 @@ input, select, textarea {
 		list-style: none;
 		margin-left: -1em;
 		padding-left: 0;
+
 	}
 
 		ul.actions li {
@@ -3047,7 +3055,7 @@ input, select, textarea {
 			-webkit-justify-content: center;
 			-ms-justify-content: center;
 			justify-content: center;
-			width: 50em;
+			width: 100%;
 			-ms-flex: 1;
 		}
 
@@ -3240,7 +3248,7 @@ input, select, textarea {
 		}
 
 		.wrapper.style1 {
-			background-color: #5e42a6;
+			background-color: #3b74ba /* #5e42a6; */
 		}
 
 		.wrapper.style1-alt {
@@ -3248,19 +3256,23 @@ input, select, textarea {
 		}
 
 		.wrapper.style2 {
-			background-color: #5052b5;
+			background-color: #79669b /* #5052b5; */
 		}
 
 		.wrapper.style2-alt {
 			background-color: #3e4094;
 		}
 
-		.wrapper.style3 {
-			background-color: #b74e91;
+		.wrapper.style4 {
+			background-color: #bb6e72;
 		}
 
 		.wrapper.style3-alt {
 			background-color: #953d75;
+		}
+
+		.wrapper.style3 {
+			background-color: #628864;
 		}
 
 		.wrapper.fullscreen {
@@ -3524,7 +3536,7 @@ input, select, textarea {
 
 	#sidebar {
 		padding: 2.5em 2.5em 0.5em 2.5em ;
-		background: #312450;
+		background: #22222C; /* #312450;*/
 		cursor: default;
 		height: 100vh;
 		left: 0;
@@ -3907,3 +3919,345 @@ input, select, textarea {
 			}
 
 		}
+
+
+/* Timeline */
+* {
+  box-sizing: border-box;
+}
+
+/* Set a background color */
+/*body {
+  background-color: #474e5d;
+  font-family: Helvetica, sans-serif;
+}*/
+
+/* The actual timeline (the vertical ruler) */
+.timeline {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* The actual timeline (the vertical ruler) */
+.timeline::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  background-color: #9a95bf;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  margin-left: -4px;
+}
+
+/* Container around content */
+.container {
+  position: relative;
+  background-color: inherit;
+  width: 50%;
+  position: relative;
+  background: #9384ae;
+  box-shadow: 0 20px 25px -15px rgba(0, 0, 0, .3);
+  color: rgb(239, 239, 255);
+}
+
+/* The circles on the timeline */
+/*.container::after {
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  right: -15px;
+  background-color: white;
+  border: 4px solid #FF9F55;
+  top: 15px;
+  border-radius: 50%;
+  z-index: 1;
+}*/
+
+/* Place the container to the left */
+.left {
+  left: 0;
+  border-radius: 4px 0px 0px 4px;
+  padding: 10px 2%;
+  
+}
+
+/* Place the container to the right */
+.right {
+  left: 50%;
+  border-radius: 0px 4px 4px 0px;
+  padding: 60px 40px 10px 40px;
+  
+}
+
+/* Add arrows to the left container (pointing right) */
+/*.left::before {
+  content: " ";
+  height: 0;
+  position: absolute;
+  top: 15px;
+  width: 0;
+  z-index: 1;
+  right: 30px;
+  border: medium solid white;
+  border-width: 10px 0 10px 10px;
+  border-color: transparent transparent transparent white;
+}*/
+
+/* Add arrows to the right container (pointing left) */
+/*.right::before {
+  content: " ";
+  height: 0;
+  position: absolute;
+  top: 15px;
+  width: 0;
+  z-index: 1;
+  left: 30px;
+  border: medium solid white;
+  border-width: 10px 10px 10px 0;
+  border-color: transparent white transparent transparent;
+}*/
+
+/* Fix the circle for containers on the right side */
+.right::after {
+  left: -16px;
+}
+
+/* The actual content */
+/*.content {
+  padding: 20px 30px;
+  background-color: white;
+  position: relative;
+  border-radius: 6px;
+}*/
+
+/* Media queries - Responsive timeline on screens less than 600px wide */
+@media screen and (max-width: 600px) {
+/* Place the timelime to the left */
+  .timeline::after {
+    left: 31px;
+  }
+
+/* Full-width containers */
+  .container {
+    width: 100%;
+    padding-left: 70px;
+    padding-right: 25px;
+  }
+
+/* Make sure that all arrows are pointing leftwards */
+  .container::before {
+    left: 60px;
+    border: medium solid white;
+    border-width: 10px 10px 10px 0;
+    border-color: transparent white transparent transparent;
+  }
+
+/* Make sure all circles are at the same spot */
+  .left::after, .right::after {
+    left: 15px;
+  }
+
+/* Make all right containers behave like the left ones */
+  .right {
+    left: 0%;
+  }
+}
+
+.tldate {
+	background: #df5d95;
+	display: inline-block;
+	color: white;
+	padding: 10px;
+	position: absolute;
+	top: 0;
+}
+
+.tlleft {
+	right: 0;
+}
+
+.tlright {
+	left: 0;
+}
+
+
+/* Animation */
+#illustration{
+    grid-area: right;
+    align-self: center;
+    justify-self: center;
+    width: 80%;
+    padding: 20%;
+}
+
+img#logo{
+    width: 130px;
+    margin-bottom: 1.6em;
+}
+
+/*
+p.subtitle{
+    font-size: 1.4em;
+    color: #858585;
+    margin-top: 0;
+}
+*/
+.cta{
+    background-color: #09BBE9;
+    padding: 1em;
+    color: #fff;
+    font-weight: bold;
+    margin-top: 2em;
+    display: inline-block;
+    border-radius: 5px;
+    text-decoration: none;
+    /* TODO: add glowing type animation while on hover */
+}
+
+#monitor{
+    animation: monitorIn 1s ease-in-out forwards;/* assign animation to monitor with 'monitorIn' as keyframe name */
+    opacity: 0;
+}
+
+.crypto-icons{
+    position: absolute;
+    width: 12%;
+}
+
+#dash{
+    margin-top: -4%;
+    margin-left: 9%;
+    animation: chatblips .5s ease-in-out 2.7s forwards;/* assign animation to dash with 'chatblips' as keyframe name */
+    opacity: 0;
+    z-index: 2;
+}
+
+#eth{
+    margin-top: 9.5%;
+    margin-left: 18%;
+    animation: chatblips .5s ease-in-out 1.9s forwards; /* assign animation to eth with 'chatblips' as keyframe name */
+    opacity: 0;
+    z-index: 2;
+}
+
+#iota{
+    margin-top: 5%;
+    margin-left: -1.5%;
+    animation: chatblips .5s ease-in-out .8s forwards; /* assign animation to iota with 'chatblips' as keyframe name */
+    opacity: 0;
+    z-index: 2;
+}
+
+@keyframes monitorIn{
+    from{
+        transform: translateY(-30px);
+        opacity: 0;
+    }
+    to{
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes chatblips{
+    /* taken from http://angrytools.com/css/animation/ for bounce-in animation*/
+    0%{
+        opacity: 0;
+        transform: scale(.3);
+      }
+      50%{
+        opacity: 1;
+        transform: scale(1.0);
+      }
+      70%{
+        transform: scale(0.9);
+      }
+      100%{
+        transform: scale(1);
+        opacity: 1;
+      }
+}
+
+
+/* Console effect */
+@import url(https://fonts.googleapis.com/css?family=Khula:700);
+.hidden {
+  opacity:0;
+}
+.console-container {
+ 
+  font-family:Khula;
+  font-size:3em;
+  /*text-align:center;*/
+  /*height:200px;*/
+  /*width:600px;*/
+  padding: 0em 0em 0em 8%;
+  display:block;
+  position:absolute;
+  color:white;
+  top:55%;
+  bottom:20px;
+  left:0;
+  right:0;
+  margin-left: 20px;
+}
+.console-underscore {
+   display:inline-block;
+  position:relative;
+  top:-0.14em;
+  left:10px;
+}
+
+
+/* ============== LISTS ============== */
+
+/* List */
+.ul2 {
+  counter-reset: index;  
+  padding: 0;
+  max-width: 100%;
+}
+
+/* List element */
+.li2 {
+  counter-increment: index; 
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  box-sizing: border-box;
+}
+
+
+/* Element counter */
+.li2::before {
+  content: counters(index, ".", decimal-leading-zero);
+  font-size: 2.5rem;
+  text-align: right;
+  font-weight: bold;
+  min-width: 50px;
+  padding-right: 12px;
+  font-variant-numeric: tabular-nums;
+  align-self: flex-start;
+  background-image: linear-gradient(to bottom, white, #595959);
+  background-attachment: fixed;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
+/* Element separation */
+.li2 + .li2 {
+  border-top: 1px solid rgba(255,255,255,0.2);
+}
+
+
+@use postcss-preset-env {
+  stage: 0;
+  autoprefixer: {
+    grid: true;
+  }
+  browsers: last 2 versions
+}
