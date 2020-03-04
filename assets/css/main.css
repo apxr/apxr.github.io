@@ -98,7 +98,7 @@ input, select, textarea {
 	}
 
 	body {
-		background: #312450;
+		background: #22222C;
 	}
 
 		body.is-preload *, body.is-preload *:before, body.is-preload *:after {
@@ -3252,7 +3252,7 @@ input, select, textarea {
 		}
 
 		.wrapper.style1-alt {
-			background-color: #493382;
+			/*background-color: #493382;*/
 		}
 
 		.wrapper.style2 {
@@ -4188,7 +4188,7 @@ p.subtitle{
 @media screen and (max-width: 600px) {
 /* Place the timelime to the left */
 	.console-container {
-		font-size:2.5em;
+		font-size:3em;
 		margin-left: 0px;
 	}
 	.console-underscore {
@@ -4197,6 +4197,10 @@ p.subtitle{
 		top:-0.14em;
 		left:10px;
 	}
+
+	.show-footer {
+        display: block;
+      }
 }
 
 @media screen and (min-width: 601px) {
@@ -4211,6 +4215,10 @@ p.subtitle{
 		top:-0.14em;
 		left:10px;
 	}
+
+	.show-footer {
+        display: none;
+     }
 }
 
 @import url(https://fonts.googleapis.com/css?family=Khula:700);
