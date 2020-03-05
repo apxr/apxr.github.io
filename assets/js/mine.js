@@ -56,7 +56,7 @@ $(function(){
 //  Console effect
 
 // function([string1, string2],target id,[color1,color2])    
-consoleText(['Apurv Priyam...', 'a Data Scientist...', 'a Programmer...', 'a Photographer...'], 'text',['#f4ffff','#f4ffff','#f4ffff', '#f4ffff']);
+consoleText(['Apurv Priyam...', 'a Data Scientist...', 'a Programmer...', 'a Photographer...'], 'text',['#666666','#666666','#666666', '#666666']);
 
 function consoleText(words, id, colors) {
   if (colors === undefined) colors = ['#fff'];
