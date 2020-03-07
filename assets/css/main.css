@@ -3303,7 +3303,7 @@ input, select, textarea {
 			@media screen and (max-width: 1280px) {
 
 				.wrapper.fullscreen {
-					min-height: calc(100vh - 2.5em);
+					min-height: calc(100vh - 3.6em);
 				}
 
 					body.is-ie .wrapper.fullscreen {
@@ -4051,7 +4051,7 @@ p.subtitle{
 
 @media screen and (max-width: 600px) {
 	#intro {
-		min-height: calc(100vh);
+		min-height: calc(100vh - 0.1em);
 	}
 	.show-header {
 		display: block;
@@ -4237,14 +4237,17 @@ p.subtitle{
 
 /*  */
 .border-wrap {
-  /*max-width: 250px;*/
-  padding: 1rem;
+  margin:0;
+  background: linear-gradient(90deg, rgba(161,158,217,1) 0%, rgba(33,226,97,1) 50%, rgba(237,131,85,1) 100%);
+  height: 4px;
+  margin-top:-2px;
+  /*padding: 1rem;
   width:100%;
   height: 5px;
-  margin-top:-3px;
+  
   position: relative;
   background: linear-gradient(90deg, rgba(161,158,217,1) 0%, rgba(33,226,97,1) 50%, rgba(237,131,85,1) 100%);
-  padding: 3px;
+  padding: 3px;*/
 }
 
 .show-header {
