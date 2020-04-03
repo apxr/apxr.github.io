@@ -44,7 +44,7 @@
 							<h1 class="major" style="color:rgb(0,0,0,0.8)">Find and plot your optimal path using NetworkX, Plotly and OSMnx in python</h1>
 
 							<!-- bolg starts -->
-							<p>There are many libraries that can be used to plot a path using Google Maps API, but this leads to reduced flexibility. To draw a path, you will need to draw a set of lines which, in lack of better words, doesn’t look good. Let me give you an example:</p>
+							<p>Many libraries can be used to plot a path using Google Maps API, but this leads to reduced flexibility. To draw a path, you will need to draw a set of lines which, in lack of better words, doesn’t look good. Let me give you an example:</p>
 
 							<img src="images/pathplot/gmap.jpg" style="width:100%;">
 
@@ -63,7 +63,7 @@ ox.plot_shape(ox.project_gdf(state))
 </code></pre>
 
 							<p><img src="images/pathplot/GA_US.png"></p>
-							<p>Now let’s download a map. This time we will download a more detailed map of area surrounding Georgia Tech by providing argument <code>network_type = 'drive'</code>. OSMnx downloads the map as a graph object which can easily be used by the NetworkX package.</p>
+							<p>Now let’s download a map. This time we will download a more detailed map of the area surrounding Georgia Tech by providing an argument <code>network_type = 'drive'</code>. OSMnx downloads the map as a graph object which can easily be used by the NetworkX package.</p>
 <pre class="pycode"><code># Defining the map boundaries
 north, east, south, west = 33.798, -84.378, 33.763, -84.422
 
@@ -74,7 +74,7 @@ G = ox.graph_from_bbox(north, south, east, west, network_type = 'drive')
 ox.plot_graph(G)
 </code></pre>
 							<p><img src="images/pathplot/graphmap.png"></p>
-							<p>In above graph we can see all the nodes (blue) and edges (gray) representing the roads with exact shapes. Let’s take a deep-dive into the graph object we downloaded and see how the edges and nodes look likes:</p>
+							<p>In the above graph, we can see all the nodes (blue) and edges (gray) representing the roads with exact shapes. Let’s take a deep-dive into the graph object we downloaded and see how the edges and nodes look likes:</p>
 
 <pre class="pycode"><code># Displaying the 3rd node
 list(G.nodes(data=True))[2]
@@ -88,7 +88,7 @@ list(G.nodes(data=True))[2]
   'highway': 'motorway_junction'})
 </code></pre>
 
-							<p>Above output shows the information of node id <code>69128194</code> with its x and y coordinates, OSM id, and type of node (a junction). Similarly, we can see the details of edges:</p>
+							<p>Above output shows the information of node id <code>69128194</code> with its x and y coordinates, OSM id, and type of node (a junction). Similarly, we can see the details of the edges:</p>
 
 <pre class="pycode"><code># Displaying the 1st edge
 list(G.edges(data=True))[1]
@@ -130,7 +130,7 @@ origin_node, destination_node
 <pre class="codeoutput"><code>(69425048, 2919090915)
 </code></pre>	
 
-	<p>Now, we can use the <code>shortest_path</code>  function from the <code>NetworkX</code> library to get the optimal path which minimizes the total length using the Dijkstra's algorithm. Notice that we have provided <code>weight=”length”</code>. This function returns a list of ordered nodes in the path.</p>
+	<p>Now, we can use the <code>shortest_path</code>  function from the <code>NetworkX</code> library to get the optimal path which minimizes the total length using Dijkstra's algorithm. Notice that we have provided <code>weight=”length”</code>. This function returns a list of ordered nodes in the path.</p>
 
 <pre class="pycode"><code># Finding the optimal path
 route = nx.shortest_path(G, origin_node, destination_node, weight = 'length')
@@ -163,6 +163,20 @@ for i in route:
 
 	<p>We will plot the path on a map multiple times so let’s define a function for this:</p>
 <pre class="pycode"><code>def plot_path(lat, long, origin_point, destination_point):
+    
+    """
+    Given a list of latitudes and longitudes, origin 
+    and destination point, plots a path on a map
+    
+    Parameters
+    ----------
+    lat, long: list of latitudes and longitudes
+    origin_point, destination_point: co-ordinates of origin
+    and destination
+    Returns
+    -------
+    Nothing. Only shows the map.
+    """
     
     # adding the lines joining the nodes
     fig = go.Figure(go.Scattermapbox(
@@ -211,7 +225,7 @@ for i in route:
 
 <p>This looks good. We have plotted a path from the source node to the destination node, and these nodes are very close to the actual co-ordinates we provided as the source and destination (shown in red and green markers respectively). But something is missing. Yes, the curves on road are replaced by straight lines joining the two nodes in the path. This can be observed in the orange boxes. If you remember the geometry element of the edges from above, we will use that to solve this issue.</p>
 
-<p>To illustrate we will see the edge shape of this portion of the path. This path is between the 6th and 7th nodes from end in out route variable. Let’s get the edge connecting these two nodes and we will see its shape.</p>
+<p>To illustrate we will see the edge shape of this portion of the path. This path is between the 6th and 7th nodes from the end in out route variable. Let’s get the edge connecting these two nodes and we will see its shape.</p>
 
 <pre class="pycode"><code># Getting the start and end node of this part
 start_node=route[-7]
@@ -229,7 +243,7 @@ z[0][2]['geometry']
 
 <p><img src="images/pathplot/geometry2.svg"></p>
 	
-	<p>This looks exactly like the street inside the second orange box. So now we have a way to get these curved shapes to plot. We just have to get these shapes and replace them with our original route data. For this we will define a funtion which does exactly this. It loops over all the edges and if a curved shape is present for that edge, it stores that curve.</p>
+	<p>This looks exactly like the street inside the second orange box. So now we have a way to get these curved shapes to plot. We just have to get these shapes and replace them with our original route data. For this, we will define a function that does exactly this. It loops over all the edges and if a curved shape is present for that edge, it stores that curve.</p>
 
 
 <pre class="pycode"><code>def node_list_to_path(G, node_list):
