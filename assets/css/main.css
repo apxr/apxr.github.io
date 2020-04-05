@@ -4072,7 +4072,7 @@ p.subtitle{
 		display: block;
 	}
 	.console-container {
-		font-size:3em;
+		font-size:2.5em;
 		margin-left: 0px;
 	}
 	.console-underscore {
@@ -4380,3 +4380,32 @@ p.subtitle{
     width: 100%;
   }
 }
+
+
+/* DP */
+#DP {
+    opacity: 0.8;
+}
+#DP:hover {
+  opacity: 1.0;
+}
+
+@media screen and (max-width: 550px) {
+	#DP img {
+	    position: absolute;
+	    top: 100px;
+	    right: 10px;
+	}
+}
+
+@media screen and (min-width: 550px) {
+	#DP {
+		position: relative;
+	}
+	#DP img {
+	    position: absolute;
+	    top: 0px;
+	    right: 10px;
+	}	
+}
+
