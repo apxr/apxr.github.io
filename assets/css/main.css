@@ -3009,7 +3009,7 @@ input, select, textarea {
 		-webkit-flex-direction: row;
 		-ms-flex-direction: row;
 		flex-direction: row;
-		min-height: 22.5em;
+		min-height: 20em;
 	}
 
 		body.is-ie .spotlights > section {
@@ -4409,3 +4409,13 @@ p.subtitle{
 	}	
 }
 
+.iconDetails {
+margin-left:2%;
+float:left;
+} 
+
+.containerEdu {
+	width:100%;
+	height:auto;
+	padding:1%;
+}
