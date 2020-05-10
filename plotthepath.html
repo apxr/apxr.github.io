@@ -1,15 +1,11 @@
 <!DOCTYPE HTML>
-<!--
-	Hyperspace by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
 <html>
 	<head>
 		<title>Find your path &lt;Apurv Priyam&gt;</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
+        <link rel="stylesheet" href="assets/css/main.css" />
+        <link rel="stylesheet" href="assets/css/plots.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 		<!-- Global site tag (gtag.js) - Google Analytics -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-162415674-1"></script>
@@ -29,7 +25,7 @@
 				<a href="index.html" class="title">Apurv Priyam</a>
 				<nav>
 					<ul>
-						<li><a href="index.html">Home</a></li>
+						<li><a href="projects.html">Projects</a></li>
 						<li><a class="active">Plot your path</a></li>
 					</ul>
 				</nav>
@@ -46,7 +42,7 @@
 							<!-- bolg starts -->
 							<p>Many libraries can be used to plot a path using Google Maps API, but this leads to reduced flexibility. To draw a path, you will need to draw a set of lines which, in lack of better words, doesn’t look good. Let me give you an example:</p>
 
-							<img src="images/pathplot/gmap.jpg" style="width:100%;">
+							<img src="images/pathplot/gmap.png" style="width:100%;">
 
 							<p>Also, on many occasions, you may want some flexibility to not only change the desired path between two points (for example, instead of the shortest or fastest path given by google maps you want the path which satisfies your criteria) but also how you want to plot.</p>
 
@@ -62,7 +58,7 @@ import numpy as np</code></pre>
 ox.plot_shape(ox.project_gdf(state))
 </code></pre>
 
-							<p><img src="images/pathplot/GA_US.png"></p>
+							<p><img src="images/pathplot/GA_US.png" class="pathplots"></p>
 							<p>Now let’s download a map. This time we will download a more detailed map of the area surrounding Georgia Tech by providing an argument <code>network_type = 'drive'</code>. OSMnx downloads the map as a graph object which can easily be used by the NetworkX package.</p>
 <pre class="pycode"><code># Defining the map boundaries
 north, east, south, west = 33.798, -84.378, 33.763, -84.422
@@ -73,7 +69,7 @@ G = ox.graph_from_bbox(north, south, east, west, network_type = 'drive')
 # Plotting the map graph
 ox.plot_graph(G)
 </code></pre>
-							<p><img src="images/pathplot/graphmap.png"></p>
+							<p><img src="images/pathplot/graphmap.png" class="pathplots"></p>
 							<p>In the above graph, we can see all the nodes (blue) and edges (gray) representing the roads with exact shapes. Let’s take a deep-dive into the graph object we downloaded and see how the edges and nodes look likes:</p>
 
 <pre class="pycode"><code># Displaying the 3rd node
@@ -110,7 +106,7 @@ list(G.edges(data=True))[1]
 list(G.edges(data=True))[1][2]['geometry']
 </code></pre>
 
-<p><img src="images/pathplot/geometry1.svg"></p>
+<p><img src="images/pathplot/geometry1.svg" class="pathplots"></p>
 
 	<p>This shows that the edge is not a straight line but a curved path. We will use this information later while plotting this type of curved edges.</p> 
 	<p>Now we will find the optimal path. For now, lets set our objective as to find the path with the smallest length. This can be changed to satisfy any criteria and will be covered in a separate blog. After deciding an origin and destination, first, we will need to get the closest nodes from these locations. This can be done using the function <code>get_nearest_node</code></p>
@@ -241,7 +237,7 @@ for i in list(G.edges(data=True)):
 z[0][2]['geometry']
 </code></pre>
 
-<p><img src="images/pathplot/geometry2.svg"></p>
+<p><img src="images/pathplot/geometry2.svg" class="pathplots"></p>
 	
 	<p>This looks exactly like the street inside the second orange box. So now we have a way to get these curved shapes to plot. We just have to get these shapes and replace them with our original route data. For this, we will define a function that does exactly this. It loops over all the edges and if a curved shape is present for that edge, it stores that curve.</p>
 
@@ -332,10 +328,6 @@ Length of lat2:  141
 		<!-- Footer -->
 			<footer id="footer" class="wrapper style1-alt">
 				<div class="inner">
-					<!-- <ul class="menu">
-						<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-					</ul> -->
-
 					<ul class="icons">
 						<li><a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/apurv.priyam" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
 						<li><a target="_blank" rel="noopener noreferrer" href="https://github.com/apurvpriyam" class="icon brands fa-github"><span class="label">GitHub</span></a></li>

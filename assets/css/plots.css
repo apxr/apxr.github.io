@@ -1,0 +1,95 @@
+
+div.tooltip {	
+    position: absolute;			
+    text-align: center;			
+    width: 150px;					
+    height: 50px;					
+    padding: 10px;				
+    font: 12px sans-serif;		
+    background: rgb(21, 27, 36);	
+    border: 0px;		
+    border-radius: 8px;			
+    pointer-events: none;
+    color: #fff		
+}
+
+.legend {
+    font-size: 16px;
+    font-weight: bold;
+    text-anchor: middle;
+}
+
+path { 
+    stroke: steelblue;
+    stroke-width: 2;
+    fill: none;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
+
+.blogplots, .covidTotal, .aniplots {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.blogplots {
+  width: 500px;
+}
+
+.aniplots {
+  width: 700px;
+}
+.covidTotal {
+    /* display: block;
+    margin-left: auto;
+    margin-right: auto; */
+    width: 600px;
+}
+
+.pathplots {
+    /* width: 60%; */
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media screen and (max-width: 550px) {
+	.blogplots, .covidTotal {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .aniplots {
+        width: 100%;
+    }
+}
+
+
+.matrix {
+    position: relative;
+}
+.matrix:before, .matrix:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    border: 1px solid #000;
+    width: 6px;
+    height: 100%;
+}
+.matrix:before {
+    left: -6px;
+    border-right: 0;
+}
+.matrix:after {
+    right: -6px;
+    border-left: 0;
+}
+  

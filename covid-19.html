@@ -1,0 +1,341 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<link rel="shortcut icon" href="#" />
+	<title> Covid-19 &lt; - Apurv Priyam - &gt;</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="assets/css/main.css" />
+	<link rel="stylesheet" href="assets/css/table.css" />
+	<link rel="stylesheet" href="assets/css/plots.css" />
+	<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-162415674-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		
+		gtag('config', 'UA-162415674-1');
+	</script>
+	<meta name="description" content="Simulation modeling showing how epidemics spread exponentially and how social distancing and popular places affects it?"/>
+</head>
+<body class="is-preload">
+	
+	<!-- Header -->
+	<header id="header">
+		<a href="index.html" class="title">Apurv Priyam</a>
+		<nav>
+			<ul>
+				<li><a href="projects.html">Projects</a></li>
+				<li><a class="active">Covid-19 Simulation</a></li>
+			</ul>
+		</nav>
+	</header>
+	
+	<!-- Wrapper -->
+	<div id="wrapper", style="background-color: #ffffff; color:rgb(0,0,0,0.6)">
+		
+		<!-- Main -->
+		<section id="main" class="wrapper">
+			<div class="inner">
+				<h1 class="major" style="color:rgb(0,0,0,0.8)">How epidemics spread exponentially, and how social distancing and popular places affect it?</h1>
+				<h5><b>Disclaimer: </b>I am a data scientist and not an epidemiologist. This simulation was created for educational purposes only and is not intended to be used for decision-making.</h5>
+				
+				<h2 style = "margin-top: 1cm;">Simulation using the SIR model with population movement dynamics.</h2>
+				
+				<!-- bolg starts -->
+				<p> The outbreak of the novel coronavirus (COVID-19) has infected millions in less than half a year. What started in a city has 
+					been declared as a pandemic by WHO. The virus spreads exponentially and doubles every few days, that is without any preventive measures. 
+					<!-- Mathematical Modeling in Epidemiology is always an essential area that helps in deciding the preventive measures
+					or predicting future growth patterns for making proper arrangements of essential items. -->
+				</p> 
+				<div id="totalcasesplot" class="covidTotal" style = "overflow-x: auto;"></div> 
+				<p>
+					This exponential growth is scary but it can be slowed down if people practice "social distancing" and other lockdown measures.
+					To understand the importance of these actions, the spread of such disease in a hypothetical city will be simulated here. 
+					The spread of the disease will be modeled through a SIR model over a geometric region divided into various communities. 
+					People can travel between such communities and their movement will be controlled using a transition probability matrix. 
+					The idea of the people movement is based on the first-order Markov chain and the movement will only depend on their current location. 
+					By updating the transition probabilities, we will simulate different experiments.
+				</p>
+				<h3 style="padding:1em; border-left: 25px solid #e46f6f; border-bottom: 1px solid #e46f6f;"> What is a SIR (Susceptible - Infectious - Removed) Model?</h3>
+				<p>
+					The SIR model is one of the most studied and robust compartmental models, and many models are derivatives of this basic form.
+					The model consists of three compartments: \(S(t)\) for the number of susceptible, \(S(t)\) for the number of infectious, and \(S(t)\) for the number 
+					of removed (recovered, deceased, or immune) individuals at a given time \(t\). SIR model is dynamic in the sense that the count of individuals in the three states changes over time. 
+					We will model the SIR without vital dynamics, that is, no birth or death other than from the disease itself is considered, 
+					making the total population constant. One idea behind this is that the dynamics of disease like COVID- 19 is much faster than the dynamics of birth and death.
+				</p>
+				\[S(t) + I(t) + R(t) = N (a \: constant \: value)\]
+				<p>
+					The SIR model can be defined as the set of three Ordinary Differential Equations (ODE):
+				</p>
+				\[\frac{ds\left(t\right)}{dt}=-b s\left(t\right)i\left(t\right)\]
+				\[\frac{di\left(t\right)}{dt}=b s\left(t\right)i\left(t\right)-k i\left(t\right)\]
+				\[\frac{dr\left(t\right)}{dt}=k i\left(t\right)\]
+				<p>
+					Where, \(s(t)\), \(i(t)\), and \(r(t)\) are the susceptible, infected and removed fraction of the population at time \(t\). 
+					\(b\) is the infection rate and  \(k\) is the recovery rate. One thing to note is that since we are modeling without vital dynamics, 
+					the sum of three ODE is 0 representing no new addition or deletion of the population from outside
+				</p>
+				\[\frac{ds\left(t\right)}{dt} + \frac{di\left(t\right)}{dt} + \frac{dr\left(t\right)}{dt} = 0\]
+
+				<h3 style="padding:1em; border-left: 25px solid #e46f6f; border-bottom: 1px solid #e46f6f;">Values of infection and recovery rate?</h3>
+				<p>
+					Before we move forward, we will have to estimate the values of infection and recovery rate. We can do this by doing a grid-search over 
+					the two parameters to find the optimal values which minimize the RMSE between modeled and actual counts of both the infectious and removed 
+					states. Let's make some assumptions first:
+					<ol>
+						<li>Since we are considering \(R\) state as both recovered and dead, we will add the deaths and recovered counts into one value</li>
+						<li>We will use Germany data because:
+							<ul>
+								<li>Germany has crossed the peak infections point and active cases are going down for the last 1 month <a href="#reference" style = "color:blue;">[1]</a></li>
+								<li>Germany also has one of the largest test counts and started testing and recording data from the first patient</li>
+							</ul>
+						</li>
+						<li>Since all the patients usually get infected in the model, we can keep the initial \(S(0)\) as total infections count to date</li>
+						<li>Both the error in the infectious and recovered state will be given equal weights while calculating RMSE</li>
+					</ol>
+				</p>
+				<!-- <div id="ParamEstPlot" class="blogplots"></div> -->
+				<img src="images/covid-19/ParamEstPlot.png", class="blogplots">
+				<p>
+					Observations from the above-mentioned approach:
+					<ol>
+						<li> The parameters were estimated as \(b=0.2621\) and \(k=0.07\) This means that the average day a patient remains 
+							in the infectious state is around 2 weeks \((\frac{1}{k})\). Which aligns with the actual range of recovery duration <a href="#reference" style = "color:blue;">[2]</a></li>
+						<li>The \(R_{0}\) value or the Basic reproduction number of Covid-19 is \(\frac{b}{k} = 3.74\). While the actual expected value
+							is 1.4–5.7 <a href="#reference" style = "color:blue;">[3]</a></li>
+						<li>The plot of Predicted and Actual counts are highly correlated and aligns with each other</li>
+					</ol>
+					Based on the above points we can conclude that the estimated rates can be considered for our study.
+				</p>
+				<h3 style="padding:1em; border-left: 25px solid #e46f6f; border-bottom: 1px solid #e46f6f;">Experiments - Lockdown</h3>
+				<p>
+					In the following experiments, simulations will be performed in a city that is divided into 400 communities (in a \(20 \: * \: 20\) grid). 
+					Each individual will belong to one community (we can call it his home location) and can move to other communities based on some  
+					probabilities. These transition probabilities will be calculated as follows:
+					<ol>
+						<li>For a given community \(i\), its neighbors will be stored in a list named '\(to\)'</li>
+						<li>Some non-neighbors will be randomly selected and added in the same list '\(to\)'</li>
+						<li>Random probabilities will be assigned to each location present in the list '\(to\)'. These probabilities will be the
+							probabilities of movement from community \(i\) to the locations in the list '\(to\)'</li>
+						<li>Step 1-3 will be repeated for all the communities</li>
+					</ol>
+					For example, for one of individual living in the community (marked with red border), we have the following transition probabilities 
+					(each cell represents one community):	
+					
+				</p>
+				<img src="images/covid-19/TP1.png" class="blogplots">
+				<h3 style="padding:1em 0em;">Experiment 1: SIR model with people moving across communities without any restriction.</h3>
+				<p>In this experiment, we will see how the disease will spread if no preventive measure is taken and all the individuals are allowed to 
+					travel without any restriction. (To learn how to create the below animation check out the following article - 
+					<a target="_blank" rel="noopener noreferrer" href="animateplots.html">
+						Animate any plots in R using gifski
+					</a>)
+				</p>
+				<img src="images/covid-19/animation_nolock.gif", class="blogplots">
+				<p>
+					Without any restriction, <b style = "color:black">\(90\%\)</b> of people got infected in \(200\) days with maximum active cases of 
+					<b style = "color:black">\(2,437\)</b> on day \(103\). 
+					The graph reached its first plateau around day \(50\). After day \(75\) the slope again started increasing and peaked at day \(103\). 
+					In the right animation, we can see that the highly infected regions reached the diagonal of the city grid and a new infection hotspot was 
+					created on the bottom right corner around day \(100\).
+				</p>
+				<h3 style="padding:1em 0em;">Experiment 2: SIR model with 25% movement restriction.</h3>
+				<p>In this experiment, people remain in their home community with a probability of \(0.25\) and therefore, simulating a situation where 
+					\(25\%\) movement is restricted.
+				</p>
+				<img src="images/covid-19/animation_lock25.gif", class="blogplots">
+				<p>
+					In this case, the <b style = "color:black">\(88\%\)</b> population still got infected. But the peak of infection reached 
+						<b style = "color:black">\(13\)</b> days later and the plot was flatter by a small amount.
+				</p>
+				<h3 style="padding:1em 0em;">Experiment 3: SIR model with 50% movement restriction.</h3>
+				<p>In this experiment, people remain in their home community with a probability of \(0.50\) and therefore, simulating a situation where 
+					\(50\%\) movement is restricted.
+				</p>
+				<img src="images/covid-19/animation_lock50.gif", class="blogplots">
+				<p>
+					With a 50% lockdown, we were able to reduce the impact of the disease and only <b style = "color:black">\(49\%\)</b> of the population 
+					got infected in 200 days. The maximum active cases in a day also reduced to only <b style = "color:black">\(1,053\)</b> and occurred on day 
+					<b style = "color:black">\(146\)</b> (while in experiment 1 it happened on day 103). We can say that restricting the movement by half, significantly 
+					helped in "flattening the curve".
+				</p>
+				<h3 style="padding:1em 0em;">Experiment 4: SIR model with 75% movement restriction.</h3>
+				<p>In this experiment, people remain in their home community with a probability of \(0.75\) and therefore, simulating a situation where 
+					\(75\%\) movement is restricted.
+				</p>
+				<img src="images/covid-19/animation_lock75.gif", class="blogplots">
+				<p>
+					75% lockdown significantly reduced the spread of the disease. In 200 days only <b style = "color:black">\(30\%\)</b> population got 
+					infected and infection peaked with a value of only <b style = "color:black">\(470\)</b> at <b style = "color:black">\(147th\)</b> day 
+					(44 days later than without lockdown case). We can also see in the heatmap animation, that the spread is very slow. Compared to the 100th day for no lockdown, 
+					75% lockdown has very little spread on the 100th day with infections confined in a small area in the center-left part. 
+					Since 100% of full lockdown is not possible, we can stop our lockdown analysis at 75%.
+				</p>
+				<p>
+					With this analysis, we can conclude that a small amount of lockdown <b style = "color:black">\((25\%)\)</b> will only reduce the impact of disease by a small amount. 
+					But as we increase the lockdown to above <b style = "color:black">\(50\%\)</b>, the effect will be significant in Flattening the curve.
+				</p>
+				<h3 style="padding:1em; border-left: 25px solid #e46f6f; border-bottom: 1px solid #e46f6f;">Experiments - Addition of a popular location like supermarket</h3>
+				<h3 style="padding:1em 0em;">Experiment 5: SIR model with a popular place in the center of the city.</h3>
+				<p>
+					In this experiment, we will see how the presence of a popular place like supermarkets, shopping malls, etc. affects the spread of the disease. We will add one such 
+					place in the center of the city which will be visited by everyone once a week.
+				</p>
+				<img src="images/covid-19/animation_ComPlace.gif", class="blogplots">
+				<p>
+					Having a popular place which is visited by everyone enabled the easy transfer of virus to all the parts of the city. 
+					Because of this, the peak of infections reached much earlier (on <b style = "color:black">\(66th\)</b> day) with a higher active cases count of 
+					<b style = "color:black">\(3,255\)</b>
+					(for experiment 1, the peak reached on <b style = "color:black">\(102 th\)</b> day with active cases of <b style = "color:black">\(2,437\)</b>).
+				</p>
+				<p>
+					In the right heatmap, we can also see that the center community (which has the popular place) got highlighted at the very beginning itself 
+					which helped in spreading the virus to different parts. On the <b style = "color:black">\(100th\)</b> day, the spread crossed 
+					the diagonal part of the city (while in all the previous experiments spread never crossed the diagonal on day 100).
+				</p>
+				<h3 style="padding:1em 0em;">Experiment 6: SIR model after locking down the popular place.</h3>
+				<p>
+					In this experiment, we will put the popular place (which aided in spreading the disease) on lockdown, and see how it affects the spread. 
+					This means no one is allowed to go to the popular place. Otherwise, all people are free to move to other communities.
+				</p>
+				<img src="images/covid-19/animation_ComPlaceLock.gif", class="blogplots">
+				<p>
+					The grey cell in the center shows the popular place with 0 population in any of the three states. 
+					The result was almost similar to that of experiment 1, with a marginal reduction in total infections.
+				</p>
+				<h3 style="padding:1em 0em;">Experiment 7: SIR model with the popular place being the only place allowed to go.</h3>
+				<p>
+					In this experiment, we will only allow the people to visit the popular place and all other movements are restricted.
+				</p>
+				<img src="images/covid-19/animation_ComPlaceOnly.gif", class="blogplots">
+				<p>
+					This time the infection was very low. Since everyone was only allowed to move to one place and that too even with a low probability, 
+					the disease was well contained.
+				</p>
+				<h3 style="padding:1em; border-left: 25px solid #e46f6f; border-bottom: 1px solid #e46f6f;">Experiments - Two cities dynamics</h3>
+				<h3 style="padding:1em 0em;">Experiment 8: Modeling between two cities.</h3>
+				<p>
+					In this experiment, two cities are connected via a single route. Infection was started in City 1 and slowly it spread to City 2.
+					The transition probability matrix was created as follows:
+					<ol>
+						<li>Transition matrix was created randomly for the two cities (\(TM_{1}\) and \(TM_{2}\))</li>
+						<li>Both cities were combined into one large matrix:
+							<div style="width:100px;">
+								<table class="matrix">
+									<tr>
+										<td>\(TM_{1}\)</td>
+										<td>0</td>
+									</tr>
+									<tr>
+										<td>0</td>
+										<td>\(TM_{2}\)</td>
+									</tr>
+								</table>
+							</div>
+						</li>
+						<li>Center locations of both the cities were selected as their airport</li>
+						<li>Probability of all individual in a city to go to the airport was changed to \(\frac{1}{14}\) (expecting people goes to
+							another city once in two weeks)</li>
+						<li>Transition matrix was normalized row-wise to make the sum of probabilities as 1</li>
+					</ol>
+				</p>
+				<img src="images/covid-19/animation_twocities.gif", class="blogplots">
+				<p>
+					We started the infection from the City 1 which spread to the City 2. We can see that City 1 has the infection peak earlier with 
+					the highest active cases of \(4,786\). City 2 got a peak \(40\) days after City 1 as it took some time for the virus to reach there. 
+					The magnitude of disease was also low with a more flatten curve in the City 2 and the spread was more gradual. 
+					Since there was a single source of disease in City 2 and it was connected to all parts of the city, the disease was more evenly spread 
+					throughout the city as compared to City 1 which shows a 'wave' like phenomenon.
+				</p>
+				<h3 style="padding:1em; border-left: 25px solid #e46f6f; border-bottom: 1px solid #e46f6f;">Conclusion</h3>
+				Without claiming an accurate epidemic modeling, our aim in this was to get an insight into how different measures and people's movements 
+				affect the spread of an infectious disease like COVID-19. While travel restriction on small scale didn't provide many benefits, 
+				50% and above restrictions slowed down the spread significantly and made the curve flatter. This means that if anyone who gets sick 
+				with COVID-19 and requires hospitalization will have access to a bed and proper treatment. This can be one temporary measure to curb the pandemic 
+				while more durable solutions are implemented.
+				
+				<!-- Table -->
+				<div class="wrap-table100">
+					<div class="table100">
+						<table>
+							<thead>
+								<tr class="table100-head">
+									<th class="column1" style="vertical-align: middle;">Restriction in movement (%)</th>
+									<th class="column2 row0" style="vertical-align: middle;">Total Infected <br>(Out of 20,000)</th>
+									<th class="column3" style="vertical-align: middle;">Peak reached on</th>
+								</tr>
+							</thead>
+							<tbody>
+									<tr>
+										<td class="column1">0 %</td>
+										<td class="column2" style="background: linear-gradient(-90deg, transparent 10%, #f7c0bf 13%) center center / 100% 90% no-repeat;">18,083</td>
+										<td class="column3">Day 103</td>
+									</tr>
+									<tr>
+										<td class="column1">25 %</td>
+										<td class="column2" style="background: linear-gradient(-90deg, transparent 12%, #f7c0bf 15%) center center / 100% 90% no-repeat;">17,597</td>
+										<td class="column3">Day 116</td>
+									</tr>
+									<tr>
+										<td class="column1">50 %</td>
+										<td class="column2" style="background: linear-gradient(-90deg, transparent 51%, #f7c0bf 54%) center center / 100% 90% no-repeat;">9,818</td>
+										<td class="column3">Day 146</td>
+									</tr>
+									<tr>
+										<td class="column1">75 %</td>
+										<td class="column2" style="background: linear-gradient(-90deg, transparent 70%, #f7c0bf 73%) center center / 100% 90% no-repeat;">5,992</td>
+										<td class="column3">Day 147</td>
+									</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<p id = "reference" style="margin-top: 3cm;">
+					<h3>References:</h3>
+					<ol>
+						<li><a href="https://www.worldometers.info/coronavirus/country/germany/">Worldometer: Germany</a></li>
+						<li><a href="https://www.webmd.com/lung/covid-recovery-overview#2-4">WebMD: Coronavirus recovery</a></li>
+						<li><a href="https://en.wikipedia.org/wiki/Basic_reproduction_number">Wikipedia: Basic reproduction number</a></li>
+						<li><a href="animateplots.html">How to create an animation of plots</a></li>
+					</ol>
+				</p>
+			</div>
+		</section>
+	</div>
+	<hr class="divider">
+	
+	<!-- Footer -->
+	<footer id="footer" class="wrapper style1-alt">
+		<div class="inner">
+			<ul class="icons">
+				<li><a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/apurv.priyam" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+				<li><a target="_blank" rel="noopener noreferrer" href="https://github.com/apurvpriyam" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+				<li><a target="_blank" rel="noopener noreferrer" href="https://www.instagram.com/apurvpriyam/" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+				<li><a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/apurvpriyam/" class="icon brands fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+				<br><li><a href = "mailto:apurvpriyam@gmail.com" style="margin-left: 5px; float:right; color:#757575;">apurvpriyam@gmail.com</a></li>
+			</ul>
+			
+		</div>
+	</footer>
+	
+	<!-- Scripts -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/jquery.scrollex.min.js"></script>
+	<script src="assets/js/jquery.scrolly.min.js"></script>
+	<script src="assets/js/browser.min.js"></script>
+	<script src="assets/js/breakpoints.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+	<script src="https://d3js.org/d3.v4.min.js"></script>
+	<script src="assets/js/Covid-plot.js"></script>
+	<script src="assets/js/ParamEstimate.js"></script>
+	<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+	
+</body>
+</html>

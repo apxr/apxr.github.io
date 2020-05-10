@@ -1,0 +1,285 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Find your path &lt;Apurv Priyam&gt;</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="assets/css/table.css" />
+        <link rel="stylesheet" href="assets/css/plots.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-162415674-1"></script>
+		<script>
+		  window.dataLayer = window.dataLayer || [];
+		  function gtag(){dataLayer.push(arguments);}
+		  gtag('js', new Date());
+
+		  gtag('config', 'UA-162415674-1');
+		</script>
+		<meta name="description" content="How to animate any plot in R using gifski"/>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="title">Apurv Priyam</a>
+				<nav>
+					<ul>
+						<li><a href="projects.html">Projects</a></li>
+						<li><a class="active">Plot Animation</a></li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Wrapper -->
+			<div id="wrapper", style="background-color: #ffffff; color:rgb(0,0,0,0.6)">
+
+				<!-- Main -->
+					<section id="main" class="wrapper">
+						<div class="inner">
+							<h1 class="major" style="color:rgb(0,0,0,0.8)">Animate any plots in R using <i>gifski</i></h1>
+
+							<!-- bolg starts -->
+                            <p>
+                                In this article, we will see how we can animate any plots in R. If you are looking to animate a simple plot (like barplot, line plot, etc.), then you can simply use 
+                                libraries like <b>gganimate</b> or <b>plotly</b>. This gives many interesting features like adding shadows or creating a trail. 
+                                But if you want to make a more custom animation involving any number and any kind of plots, you can use libraries like <b>gifski</b> to create 
+                                a gif animation. One advantage of using gifski is that the color is not limited to 256.
+                            </p>
+                            <p>
+                                To create the animation, it is not necessary to move a plot. But here we will simply make many individual plots and 
+                                stitch them together as movie frames. Each frame is a different plot that is made using a subset of the full data.
+                                <img src="images/projlist/animationplotflow.png", class="aniplots">
+                            </p>
+                            <p>
+                                Here, we will try to create an animation of two plots which I used in one article on <a href = "covid-19.html" style="color:#000000;">modeling COVID-19 using the SIR model.</a> 
+                                First, let's look at our data. The data for creating the line plots has three columns which have the count of individuals in the three states - S, I, and R 
+								for all the days (the Day column will be used to animate).
+								<!-- SIR table -->
+								<div class="wrap-table100" style = "margin-top: 0;width: 300px">
+									<div class="table100">
+										<table>
+											<thead>
+												<tr class="table100-head">
+													<th class="column1" style="vertical-align: middle;">Day</th>
+													<th class="column2 row0" style="vertical-align: middle;">State</th>
+													<th class="column3" style="vertical-align: middle;">Count</th>
+												</tr>
+											</thead>
+											<tbody>
+													<tr>
+														<td class="column1">1</td>
+														<td class="column2">S</td>
+														<td class="column3">19760</td>
+													</tr>
+													<tr>
+														<td class="column1">1</td>
+														<td class="column2">I</td>
+														<td class="column3">223</td>
+													</tr>
+													<tr>
+														<td class="column1">1</td>
+														<td class="column2">R</td>
+														<td class="column3">17</td>
+													</tr>
+													<tr>
+														<td class="column1">2</td>
+														<td class="column2">S</td>
+														<td class="column3">19715</td>
+													</tr>
+													<tr>
+														<td class="column1">2</td>
+														<td class="column2">I</td>
+														<td class="column3">249</td>
+													</tr>
+													<tr>
+														<td class="column1">...</td>
+														<td class="column2">...</td>
+														<td class="column3">...</td>
+													</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+								The second dataset is for the heatmap that has four columns which have the values of the X and Y axis, infected population ratio 
+								(this will be used to color the heatmap), and day (this will be used to animate). One thing to note is that I have fixed the limit of 
+								x and y axis. This means that even if we take the subset of full data, the plot layout will be fixed.
+								<!-- heatmap table -->
+								<div class="wrap-table100" style = "margin-top: 0;width: 300px">
+									<div class="table100">
+										<table>
+											<thead>
+												<tr class="table100-head">
+													<th class="column1" style="vertical-align: middle;">X</th>
+													<th class="column2 row0" style="vertical-align: middle;">Y</th>
+													<th class="column3" style="vertical-align: middle;">infection</th>
+													<th class="column3" style="vertical-align: middle;">Day</th>
+												</tr>
+											</thead>
+											<tbody>
+													<tr>
+														<td class="column1">1</td>
+														<td class="column2">1</td>
+														<td class="column2">0.7885</td>
+														<td class="column3">1</td>
+													</tr>
+													<tr>
+														<td class="column1">2</td>
+														<td class="column2">1</td>
+														<td class="column2">0.7837</td>
+														<td class="column3">1</td>
+													</tr>
+													<tr>
+														<td class="column1">3</td>
+														<td class="column2">1</td>
+														<td class="column2">0.7969</td>
+														<td class="column3">1</td>
+													</tr>
+													<tr>
+														<td class="column1">...</td>
+														<td class="column2">...</td>
+														<td class="column2">...</td>
+														<td class="column3">...</td>
+													</tr>
+													
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</p>
+							<p>
+								Now we can move the plot generation. As the next step, we will create the plots for day 1. Since we need to create plots multiple times, let's 
+								define a function for that.
+							</p>
+<pre class="pycode"><code># LOADING THE LIBRARIES ----------------------------------------
+library(ggplot2)   # for plots
+library(gridExtra) # to create a layout and combine the plots
+library(stringr)   # for str_pad function to pad while writing filenames
+</code></pre>
+<p></p>
+<pre class="pycode"><code># FUNCTION TO CREATE THE PLOTS ----------------------------------------
+# Description: this function creates a line plot and a heat map for a given day
+# INPUT:
+# ______
+# 		sir: dataset having the count of individuals in each state for each day
+#		heat_: dataset for the heatmap
+#		ti: day
+# OUTPUT:
+# _______
+#		a plot having both the line plot and heatmap
+
+GeneratePlots <- function(sir, heat_, ti) {
+	
+	# Filtering the data for given day
+	sir2 <- sir[sir$Day <= ti, ]
+	
+	# creating the line plot
+	lineplot <- ggplot(data=sir2, aes(x=Day, y=Count, group=State, color=State)) +
+	  geom_line() +  
+	  theme_minimal() +
+	  scale_color_manual(breaks = c("S", "I", "R"), 
+						 values=c("blue", "red", "green4"))+
+	  theme(plot.title = element_text(hjust = 0.5, size = 10),
+			axis.title = element_text(size = 8))+
+	  labs(title = "SIR plot") +
+	  xlim(1, tot_time) +ylim(0, 20000)
+	
+	# creating the heatmap
+	heatplot <- ggplot(heat_[heat_$Day == ti, ], aes(X, Y, fill= infection)) + 
+	  geom_tile(color = "gray") +
+	  # defining the legend bar (setting the limit from 0 to 1 as this is a ratio)
+	  scale_fill_gradient2(low="white", high="red", breaks=seq(0,1,0.25), limits=c(0, 1)) +
+	  theme_minimal() +
+	  # Plot title
+	  labs(title="Spread of infection across communities")+
+	  # Theme and layout of the plot
+	  theme(axis.text.x=element_blank(),
+			axis.text.y=element_blank(),
+			axis.title.x=element_blank(),
+			axis.title.y=element_blank(),
+			panel.grid.major=element_blank(),
+			plot.title = element_text(hjust = 0.5, size = 10))
+	
+	return(grid.arrange(lineplot, heatplot,  nrow = 1, top = paste0("Day: ", ti)))
+  }
+</code></pre>
+							<p>
+								Calling the above function for day 100 gives the following output plot:
+							</p>
+<pre class="pycode"><code>GeneratePlots(sir, heat_, 100)
+</code></pre>				
+							<img src="images/projlist/day100.png", class="aniplots">
+							<p>
+								Now the only thing left is to call the function <b>GeneratePlots</b> in a loop, save the plots as .png files and convert them into 
+								.gif animation. While saving the plot we have to make sure that the file name should be in proper order. Here, I am padding the 
+								day with <b>0</b> to ensure that.
+							</p>
+
+<pre class="pycode"><code>for (i in 1:200) {
+	# creating the plot
+	p <- GeneratePlots(sir, heat_, i)
+	# saving the plot locally using ggsave function
+	ggsave(paste0("ComPlaceOnly_", str_pad(i, 3, pad = "0"), ".png"), p, width = 3, 
+		   height = 1.2,  scale = 2, dpi = 150)
+  }
+</code></pre>	
+							<p>
+								The only step left is to read all these files and stitch them together to create an animation. 
+							</p>
+<pre class="pycode"><code>library(gifski)
+# creating a vector of png file names
+png_files <- list.files("png_files_location", pattern = "*.png", full.names = T)
+# creating a gif using all the png files
+gifski(png_files, gif_file = "animation_ComPlaceOnly.gif", width = 800, height = 350, delay = 0.2)
+</code></pre>								
+							<p>
+								Following the above steps, we will have the below animation showing how the values change over time for both the line plot and heatmap.
+							</p>
+							<img src="images/projlist/animation.gif", class="aniplots">
+
+							<h3>Wrapping Up</h3>
+							<p>
+								Now you know how to create any plots in any layout into animation and show how the values change over time. In this article, I have 
+								used ggplot, but the same approach of creating .png and .gif files can be followed for any plotting libraries.
+							</p>
+							<p id = "reference" style="margin-top: 3cm;">
+								<h3>References:</h3>
+								<ol>
+									<li><a href="https://cran.r-project.org/web/packages/gridExtra/">How to arrange different plots in a layout using gridExtra</a></li>
+									<li><a href="https://www.rdocumentation.org/packages/gifski/versions/0.8.6/topics/gifski">How to stitch multiple png files into one animation</a></li>
+								</ol>
+							</p>
+
+						</div>
+					</section>
+
+			</div>
+			
+					<hr class="divider">
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper style1-alt">
+				<div class="inner">
+					<ul class="icons">
+						<li><a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/apurv.priyam" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+						<li><a target="_blank" rel="noopener noreferrer" href="https://github.com/apurvpriyam" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+						<li><a target="_blank" rel="noopener noreferrer" href="https://www.instagram.com/apurvpriyam/" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+						<li><a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/apurvpriyam/" class="icon brands fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+						<br><li><a href = "mailto:apurvpriyam@gmail.com" style="margin-left: 5px; float:right; color:#757575;">apurvpriyam@gmail.com</a></li>
+					</ul>
+
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
