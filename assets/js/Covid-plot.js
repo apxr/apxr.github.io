@@ -5,8 +5,6 @@ var margin = {top: 30, right: 20, bottom: 70, left: 80},
     
 // var width = Math.min(600, screen_width) - margin.left - margin.right;
 var width = 600 - margin.left - margin.right;
-console.log(width);
-
 
 // append the svg object to the body of the page
 var svg = d3.select("#totalcasesplot")
@@ -33,12 +31,10 @@ function(d){
 
 // Now I can use this dataset:
 function(data) {
-    console.log(data);
     
     var arr_len = data.length;
     var max_date = data[arr_len-1].date;
-    console.log(max_date);
-
+    
     // Add X axis --> it is a date format
     var x = d3.scaleTime()
     .domain(d3.extent(data, function(d) { return d.date; }))

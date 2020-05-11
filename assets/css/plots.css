@@ -60,6 +60,12 @@ path {
     margin-right: auto;
 }
 
+.linesmall {
+    fill: #fd2d2dad;
+    stroke: #fd2d2dad;
+    stroke-width: 1;
+}
+
 @media screen and (max-width: 550px) {
 	.blogplots, .covidTotal {
         width: 100%;

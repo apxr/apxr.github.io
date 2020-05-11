@@ -98,7 +98,7 @@
 						<li>Both the error in the infectious and recovered state will be given equal weights while calculating RMSE</li>
 					</ol>
 				</p>
-				<!-- <div id="ParamEstPlot" class="blogplots"></div> -->
+				<!-- <div id="ParamEstPlot" class="covidTotal" style = "overflow-x: auto;"></div> -->
 				<img src="images/covid-19/ParamEstPlot.png", class="blogplots">
 				<p>
 					Observations from the above-mentioned approach:
@@ -264,31 +264,37 @@
 						<table>
 							<thead>
 								<tr class="table100-head">
-									<th class="column1" style="vertical-align: middle;">Restriction in movement (%)</th>
-									<th class="column2 row0" style="vertical-align: middle;">Total Infected <br>(Out of 20,000)</th>
-									<th class="column3" style="vertical-align: middle;">Peak reached on</th>
+									<th class="column1" style="vertical-align: middle;">Restriction in movement</th>
+									<th class="column2 row0" style="vertical-align: middle;">Total Infected</th>
+									<th class="column2" style="vertical-align: middle;">Peak Reached On</th>
+									<th class="column3" style="vertical-align: middle;">Infection Plot</th>
 								</tr>
 							</thead>
 							<tbody>
 									<tr>
 										<td class="column1">0 %</td>
 										<td class="column2" style="background: linear-gradient(-90deg, transparent 10%, #f7c0bf 13%) center center / 100% 90% no-repeat;">18,083</td>
-										<td class="column3">Day 103</td>
+										<td class="column2">Day 103</td>
+										<td class="column3"><div id="line0"></div></td>
+											<!-- Day 103</td> -->
 									</tr>
 									<tr>
 										<td class="column1">25 %</td>
 										<td class="column2" style="background: linear-gradient(-90deg, transparent 12%, #f7c0bf 15%) center center / 100% 90% no-repeat;">17,597</td>
-										<td class="column3">Day 116</td>
+										<td class="column2">Day 116</td>
+										<td class="column3"><div id="line25"></div></td>
 									</tr>
 									<tr>
 										<td class="column1">50 %</td>
 										<td class="column2" style="background: linear-gradient(-90deg, transparent 51%, #f7c0bf 54%) center center / 100% 90% no-repeat;">9,818</td>
-										<td class="column3">Day 146</td>
+										<td class="column2">Day 146</td>
+										<td class="column3"><div id="line50"></div></td>
 									</tr>
 									<tr>
 										<td class="column1">75 %</td>
 										<td class="column2" style="background: linear-gradient(-90deg, transparent 70%, #f7c0bf 73%) center center / 100% 90% no-repeat;">5,992</td>
-										<td class="column3">Day 147</td>
+										<td class="column2">Day 147</td>
+										<td class="column3"><div id="line75"></div></td>
 									</tr>
 							</tbody>
 						</table>
@@ -338,7 +344,7 @@
 	<script src="assets/js/main.js"></script>
 	<script src="https://d3js.org/d3.v4.min.js"></script>
 	<script src="assets/js/Covid-plot.js"></script>
-	<script src="assets/js/ParamEstimate.js"></script>
+	<script src="assets/js/small_lines.js"></script>
 	<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 	

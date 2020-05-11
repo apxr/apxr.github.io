@@ -1831,11 +1831,12 @@ input, select, textarea {
 		-webkit-transition: border-color 0.2s ease;
 		-ms-transition: border-color 0.2s ease;
 		transition: border-color 0.2s ease;
-		background-color: rgba(117, 116, 116, 0.75);
+		/* background-color: rgba(117, 116, 116, 0.75); */
+		background-color: #e4e3e3;
 		border: solid 1px !important;
 		border-color: rgba(255, 255, 255, 0.15) !important;
-		border-radius: 3em;
-		color: #ffffff !important;
+		border-radius: 4px;
+		/* color: #ffffff !important; */
 		cursor: pointer;
 		display: inline-block;
 		font-size: 0.6em;
