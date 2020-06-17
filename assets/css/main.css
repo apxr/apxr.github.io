@@ -3959,7 +3959,7 @@ input, select, textarea {
 	align-self: center;
 	justify-self: center;
 	width: 80%;
-	padding: 20%;
+	/* padding: 20%; */
 }
 
 img#logo{
@@ -3974,6 +3974,24 @@ p.subtitle{
 	margin-top: 0;
 }
 */
+
+@media screen and (max-width: 550px) {
+	#illustration {
+	    display:none;
+	}
+}
+
+@media screen and (min-width: 550px) {
+	#illustration {
+		/* position: relative; */
+	}
+	#illustration img {
+	    position: absolute;
+	    /* bottom: 0px; */
+	    right: 10px;
+	}	
+}
+
 .cta{
 	background-color: #09BBE9;
 	padding: 1em;
@@ -4014,7 +4032,7 @@ p.subtitle{
 
 #iota{
 	margin-top: 5%;
-	margin-left: -1.5%;
+	margin-right: 20%;
 	animation: chatblips .5s ease-in-out .8s forwards; /* assign animation to iota with 'chatblips' as keyframe name */
 	opacity: 0;
 	z-index: 2;
@@ -4032,7 +4050,6 @@ p.subtitle{
 }
 
 @keyframes chatblips{
-	/* taken from http://angrytools.com/css/animation/ for bounce-in animation*/
 	0%{
 		opacity: 0;
 		transform: scale(.3);
