@@ -2526,9 +2526,9 @@ input, select, textarea {
 
 		.icon.brands:before {
 			font-family: 'Font Awesome 5 Brands';
-			color: #b74e91;
+			color: #375977;
 			font-size: 2em;
-			/*color: linear-gradient(to bottom, #FFD700, #996515);*/
+			/* color: linear-gradient(to bottom, #FFD700, #996515); */
 		}
 
 		.icon.major {
@@ -2827,6 +2827,11 @@ input, select, textarea {
 		ul.icons li {
 			display: inline-block;
 			padding: 0 0.75em 0 0;
+		}
+
+		ul.icons.side li {
+			display: inline-block;
+			padding: 0;
 		}
 
 			ul.icons li:last-child {
@@ -3814,6 +3819,14 @@ input, select, textarea {
 				background: #ffffff; 
 			}
 
+			#footSocial {
+				display:none;
+			}
+
+			.resumelink {
+				display: none;
+			}
+
 			#sidebar nav a:hover {
 				color: rgba(0, 0, 0, 0.8);
 			}
@@ -3831,7 +3844,11 @@ input, select, textarea {
 
 			/*.show-footer {
         		display: block;
-      		}*/
+			  }*/
+			  
+			#sideSocial {
+				display: none;
+			}
 
       		#sidebar nav a:hover {
 				color: rgba(255, 255, 255, 0.7);
